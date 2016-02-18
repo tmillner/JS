@@ -1,0 +1,77 @@
+首次，需要全面性安装grunt－cli
+运行grunt之后，命令行提出没有当地的grunt
+于是安装grunt，并创造相应的Gruntfile
+
+要运行grunt watch 首先必须安装grunt-contrib-watch
+
+要把某个JSON对象输出成字符串，必须用JSON.stringify(o);
+
+加入命令行提出Cannot use 'in' operator to search for 'src' 。。。 也许你提供的是array而不是真正的对象
+如
+// 错了
+files:['dir/**/*.js'] 
+// 对了
+files:{
+	outputDir:"dir/**/*.js"
+}
+
+如果试着uglify但是遇到JS_Parse_Error的话，很可能每个文件无法并存
+（比如两个文件使用了匿名函数，就会抛出这个错误）
+
+uglify过程中在函数的最后不会添加；于是必须注意在后面添加这个分号
+
+lodash 就是 underscore 的一个更现代化的 superset (超集）， 兼容性更高
+
+target 就是某个具体的规定，一般就是对象的子对象
+{
+	"concat": {
+		"jsTarget": {
+			//
+		},
+		"cssTarget": {
+			//
+		}
+	}
+}
+
+Babel 包含许多针对你需要功能的软件包， 其实有点乱。比如
+仅仅要输出转码的代码，就用babel－cli （包含babel－node）
+要用es6在原始对象上扩展的函数的话，就用babel－polyfill
+要在浏览器用es6的话，用第5版本的babel－core。。。 (npm install babel-core@5)
+另外可以用babelify 配合 browserify （或者grunt－browserify）
+http://stackoverflow.com/questions/28661499/how-to-compile-a-project-properly-with-babel-and-grunt
+还有babel－eslint， 多麻烦
+
+当要下载babel，必须给出指定的preset  (.babelrc 文件里)
+(babel-preset-es2015, babel-preset-react)
+
+package.json 中存在一个scripts键，其用途就是给其他脚本处理好项目。此外
+也可以运行任何一个键，就用：
+npm run-script "script_key"
+
+eslint 必须明确定义要用哪些parser。这些说明要在。eslint文件写的
+＊＊＊不知道的话可以从node_modules执行 eslint －－init来自动创造＊＊＊
+
+使用根目录的src文件一半是好的主意，这样才能说明哪些文件属于build
+
+假如要把大量的文处理并转变成输出在别的路径的文件，可以使用Dynamic file mapping，
+这样会使得不用一次又一次更新gruntfile文件
+
+es6 功能
+－ 默认参数（值，和函数）不提供值的话，值会是undefined
+－ 从对象某个值的destructuring 
+   let {a, b} = {a:"a", b:"b", c:"c"}; // a === 'a'
+   let {a:newA, b:newB} = {a:"a", b:"b", c:"c"}; // newA === 'a';
+   let [one,,,,five] = ['1', '2,', '3', '4', '5']; // one === '1';
+
+在sublime3中要安装插件必须安装Package Control 
+https://packagecontrol.io/installation
+然后每次需要新的包，只要按“CTRL ＋ SHIFT ＋ P 
+然后打“install”
+
+
+＊＊＊ 如果运行babel－node，但是经常出现非常简单的类似es6语句问题
+很可能没有创造。babelrc 文件（或者该文件里没写入{ "presets" : ["安装的preset"]}
+
+除了用gruntfile来处es6，还可以利用类似于build操作的npm脚本命令， 如
+scripts: {"build": "babel src -d dist"}

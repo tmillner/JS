@@ -1,0 +1,69 @@
+{
+	"person": {
+		"name":	"Trevor M"
+	},
+	"people": "<%= person %>",
+	"watch":{
+		"default": {
+			"files": ["notes.txt", "config.json", "./*"],
+			"tasks": ["whatsUpInit"]
+		},
+		"es6": {
+			"files": ["./**/*.es6"],
+			"tasks": ["babel"]
+		}	
+	},
+	"uglify": {
+		"distributionFolder": {
+			"files": {
+				"dist/misc.min.js": "Misc/**/*.js"
+			}
+		},
+		"distributionFolder2": {
+			"src": ["Misc/**/*.js"],
+			"dest": "dist/misc.min.js"
+		}
+	},
+	"clean" : {
+		"build": ["dist", "lib"]
+	},
+	"test": {
+		"js": "1",
+		"php": "2",
+		"ui": "3"
+	},
+	"babel": {
+		"options": {
+			"sourceMap": true,
+			"presets": ["es2015"]
+		},
+		"initialDist": {
+			"files": {
+				"lib/es6_sample.js": "es6_sample.es6"
+			}
+		},
+		"dist": {
+			"files": [
+				{
+					"expand": true,
+					"src": ["*.es6"],
+					"cwd": "./",
+					"dest": "lib/",
+					"ext": ".js",
+					"extDot": "last",
+					"flatten": true
+				},
+				{
+					"expand": true,
+					"src": ["*.es6"],
+					"cwd": "./expressapp/",
+					"dest": "./expressapp/lib/",
+					"ext": ".js",
+					"extDot": "last",
+					"flatten": true
+				}
+			]
+		}
+	},
+	"toJSON": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify"
+}

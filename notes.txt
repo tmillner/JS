@@ -52,7 +52,7 @@ npm run-script "script_key"
 eslint 必须明确定义要用哪些parser。这些说明要在。eslint文件写的
 ＊＊＊不知道的话可以从node_modules执行 eslint －－init来自动创造＊＊＊
 
-使用根目录的src文件一半是好的主意，这样才能说明哪些文件属于build
+使用根目录的src文档是一半是好的主意，这样才能说明哪些文件属于被build
 
 假如要把大量的文处理并转变成输出在别的路径的文件，可以使用Dynamic file mapping，
 这样会使得不用一次又一次更新gruntfile文件
@@ -75,3 +75,114 @@ https://packagecontrol.io/installation
 
 除了用gruntfile来处es6，还可以利用类似于build操作的npm脚本命令， 如
 scripts: {"build": "babel src -d dist"}
+
+要考虑jasmine还是mocha，一般来说jasmine更擅长于测试当地服务器的操作，不是那么灵
+
+按照《 Building Maintainable Software 》必须遵守下面规则：
+
+    Write short units of code: limit the length of methods and constructors
+    Write simple units of code: limit the number of branch points per method
+    Write code once, rather than risk copying buggy code
+    Keep unit interfaces small by extracting parameters into objects
+    Separate concerns to avoid building large classes
+    Couple architecture components loosely
+    Balance the number and size of top-level components in your code
+    Keep your codebase as small as possible
+    Automate tests for your codebase
+    Write clean code, avoiding "code smells" that indicate deeper problems
+
+在js中用小字母加上破折号乘坐Kebab case， （来自于Lisp）
+
+要使用es6作导入（一个使用exports default thing）的话 必须两次提供名字。 如
+import React from ‘react'
+// React 就是指针对任何输出的东西. 注意大写子，这指的是一个Class
+// react 是一个文件，或模块
+// 不能简单的导入， 如 import ‘react’
+
+es2015里扩充了很多对象的函数，如
+true === "this is a string".includes('string');
+
+Redux 很善于保存状态，可以做几次更改并跟踪到最后状态， 常常与React一起用的
+利用redux的对象一般包涵一个getState方法 可以返回 state的结果对象：
+const actualState = customStore.getState();
+expect(actualState).toEqual({plants: [], themeColor : {color : green}});
+Redux 提供一些reducer函数，他的作用如：
+var defaultState = () => {color : 'green'};
+var action = { type : 'TURN_CHANGE_COLOR', payload : {color : 'blue'}};
+const actual = colorReducer(defaultState(), action);
+
+expect(actual).toEqual({color : 'blue'});
+
+
+/////////////////// BUILD CONFIG ////////////////////////
+用 gulp 的时候一般要导入能把string 转化为 stream 的模块。 如
+vinyl-source-stream // gulp 只能接受 streams。这是因为Gulp
+只是单纯的JS，常常利用pipe
+
+Browserify 与 CommonJS (NodeJS 类似 require) 运行，如：
+var webdriver = require('selenium-webdriver');
+Browserify 提供一个能把不同commonJS类似包融合起来
+Browserify 很有UNIX的观念， 是由许多小小的工具包容起来的
+跟Webpack相比，Webpack很像一个Monolith， usuable OOTB， 也很大
+
+Module IDs with exclamation points are AMD loader plugins 
+https://github.com/amdjs/amdjs-api/blob/master/LoaderPlugins.md 如： 
+require('style!css!./main.css') 
+
+原来 Weback 比Browserify更好在于本来支持HMR 
+
+HMR － Hot Module Replacement。 有这个功能，能在浏览器马上反应
+新文件内容。 Live Reload
+
+有ES6， 不用再使用 AMD define([_], function('underscore') {}});
+这是因为AMD 的用途在导出，和导入， 模块。 ES6 本来能 export 如
+export default class MyClass() {};
+export function Helper() {};
+两者都可以导入，使用
+
+
+有很多task handlers:
+- npm scripts
+- Make
+- Grunt
+- Gulp
+- Webpack (suited more for JS file bundling rather than task handling)
+
+httpster 是一个很有用的static（静态）服务器。不用做像express的很多设置
+https://simbco.github.io/httpster/
+
+光使用babel-core 和 babel-presets-es2015 能把名为＊。babel。js
+参考babel的api，进行转吗 如
+npm install babel-core babel-presets-es2015 --save-dev
+echo "{presets: ['es2015']}" > .babelrc
+touch gulpfile.babel.js
+// 不允许使用 gulpfile.es6
+
+
+mouseout & mouseover apply to node AND children
+mouseleave & mouseenter apply to node itself
+
+foreach 和 map 虽然两个都适用于列表，但是：
+foreach 能转换原来的元素，
+map 返回一个新的，对每个元素进行操作的列表
+
+
+JS 老是从上面执行到最底层。于是如果某些代码写错，你可能不知道
+一直到启发那个代码
+
+把大量文件保存在同样一个文档被叫做 sock draw method （做事的方法）
+大体上这个做法很 乱七八糟
+
+编写心的项目时，不用太多考虑目录的结构，可以使用 sock－drawer 做法
+最重要的是，以后进行修改
+
+如果在一个函数内遇到undefined参考错误，一般这个函数算上失败了，
+例如：下面如果state是undefined，MainStore.addChangeListener也会失败
+
+console.log('Mounted StoreCart items B4:', this.state.items); 
+MainStore.addChangeListener(() => {
+  this.setState({
+    items : MainStore.getPurchaseItems()
+  });
+  console.log('never printed :(');
+});

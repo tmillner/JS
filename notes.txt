@@ -186,3 +186,33 @@ MainStore.addChangeListener(() => {
   });
   console.log('never printed :(');
 });
+
+
+如果要在express中作UI测试，可以把回调添加测试功能， 如
+app.use(express.static('spec/helpers'));
+
+app.get('/', (req, res) => {
+  res.send("Hiya");
+});
+
+app.listen(PORT, () => {
+  console.log('I\'m listenningggg... ');
+
+  var driver = new webdriver.Builder()
+    .forBrowser('firefox')
+    .build();
+
+  driver.get('http://localhost:3009/no-typos-page.html');
+  driver.wait(until.titleIs('A very simple, clean page'), 1000);
+  driver.quit();
+});
+也可以把两个部分（服务器和测试）分开
+
+Semver - semantic versioning (ex elm)
+The red ^^^^^ under a line == microsoft word
+
+Elm is a nice JS gateway to functional programming (stateless/pure functions (takes in and spits out — no side effects) & immutable data…). Strong point is less runtime bombs
+
+Elm uses tasks to manage some call/requests. Can be executed sometime else. But have Gurantees (ex that something won’t be changed — immutability), due to nature of language
+
+Can also work with ports (pub-sub) that work with other stacks by passing data
